@@ -1,0 +1,52 @@
+---
+title: "Urbam Deaths SJC"
+author: "pedro-hos@outlook.com"
+date: "06/06/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(plotly)
+library(ggrepel)
+library(readr)
+```
+
+#Lendo 
+
+```{r}
+dados <- read.csv("alldata.csv")
+dados$MONTH <- factor(dados$MONTH, levels = rev(c("JANEIRO", "FEVEREIRO", "MARCO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO")))
+```
+
+#Head
+```{r}
+head(dados)
+```
+
+#Tail
+```{r}
+tail(dados)
+```
+#Óbitos por Ano
+
+```{r}
+ggplotly(
+  ggplot(data = dados) + 
+    geom_bar(aes(x = YEAR)) + 
+    labs(title = "Óbitos por ano segundo site da URBAM", 
+         x = "Anos", y = "Óbitos", caption = "Período de 2016 à Junho de 2021") +
+    theme_light()
+)
+```
+```{r}
+ggplotly(
+  ggplot(data = dados) + 
+    geom_bar(aes(fill = MONTH, x = YEAR)) + 
+    labs(title = "Óbitos por ano segundo site da URBAM", 
+         x = "Anos", y = "Óbitos", caption = "Período de 2016 à Junho de 2021") +
+    theme_light()
+)
+```
+
+
