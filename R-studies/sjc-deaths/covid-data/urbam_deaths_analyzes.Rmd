@@ -49,4 +49,15 @@ ggplotly(
 )
 ```
 
+```{r}
+dados %>% mutate(RANGE_AGE = case_when(AGE > 0 && AGE <= 15 ~ "Jovens", 
+                                       AGE > 15 && AGE <=64 ~ "Adultos",
+                                       AGE >= 65 ~ "Idosos"))
+
+write.csv(dados)
+```
+```{r}
+dados[,c("AGE", "RANGE_AGE")]
+```
+
 
