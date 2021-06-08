@@ -10,6 +10,8 @@ library(tidyverse)
 library(plotly)
 library(ggrepel)
 library(readr)
+library(magrittr)
+library(dplyr)
 ```
 
 #Lendo 
@@ -50,14 +52,34 @@ ggplotly(
 ```
 
 ```{r}
-dados %>% mutate(RANGE_AGE = case_when(AGE > 0 && AGE <= 15 ~ "Jovens", 
-                                       AGE > 15 && AGE <=64 ~ "Adultos",
-                                       AGE >= 65 ~ "Idosos"))
+dados$RANGE_AGE = NA
 
-write.csv(dados)
-```
-```{r}
+dados$RANGE_AGE <- case_when( dados$AGE == 0 ~ "Natimorto",
+                             (dados$AGE > 0 & dados$AGE <= 15) ~ "Jovens", 
+                             (dados$AGE > 15 & dados$AGE <=64) ~ "Adultos",
+                             (dados$AGE >= 65) ~ "Idosos")
+
+#write.csv(dados, file="alldata.csv")
+
 dados[,c("AGE", "RANGE_AGE")]
 ```
 
+```{r}
+graph <- ggplot(data = dados, aes(fill = RANGE_AGE, x = MONTH)) + 
+    geom_bar(show.legend = TRUE) + 
+    labs(title = "Óbitos por ano segundo site da URBAM", 
+         x = "Anos", y = "Óbitos", caption = "Período de 2016 à Junho de 2021") +
+    theme_light()
 
+ggplotly(graph)
+```
+```{r}
+mortes_range <- read.csv("mortes_range.csv")
+graph <- ggplot(data = mortes_range, aes(fill = n_ranges, x = n_years, y=values)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  labs(title = "Óbitos por range idade segundo site da URBAM", 
+       x = "Anos", y = "Óbitos", caption = "Período de 2016 à Junho de 2021") +
+  theme_light()
+
+ggplotly(graph)
+```
