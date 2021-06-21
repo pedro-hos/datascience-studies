@@ -33,16 +33,15 @@ plot(cluster.hierarquico, cex = 0.6, hang = -1)
 
 #criando grupos
 universidades_hierarquico <- cutree(cluster.hierarquico, k = 5)
-table(universidades_hierarquico)
 
 #transformando em data frame a saida do cluster
 universidades_hierarquico <- data.frame(universidades_hierarquico)
 
 #juntando com a base original
-uni_fim <- cbind(university_rank, universidades_hierarquico)
+finalCluster <- cbind(university_rank, universidades_hierarquico)
 
 #visualizando em cores os clusters
-uni_fim %>% ggplot() +
+finalCluster %>% ggplot() +
   geom_point(aes(x = International_Students,
                  y = Percentage_Female,
                  color = as.factor(universidades_hierarquico)),
@@ -60,7 +59,7 @@ fviz_cluster(k5, data = university.padronized, main = "Cluster K5", geom = c("po
 universityfit <- data.frame(k5$cluster)
 
 #Agrupar cluster e base
-finalCluster <-  cbind(university_rank, universityfit)
+finalCluster <-  cbind(finalCluster, universityfit)
 
 ### método dbscan
 
