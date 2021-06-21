@@ -32,4 +32,19 @@ universityfit <- data.frame(k5$cluster)
 #Agrupar cluster e base
 finalCluster <-  cbind(university_rank, universityfit)
 
+### método dbscan
+
+#Calcular o Cluster
+dbscan <- fpc::dbscan(university.padronized,eps = 0.56, MinPts = 3)
+
+finalCluster$dbscan <- dbscan$cluster
+
+#visualizando em cores os clusters
+finalCluster %>% ggplot() +
+  geom_point(aes(x = International_Students,
+                 y = Percentage_Female,
+                 color = as.factor(dbscan)),
+             size = 3)
+
+#Escrevendo csv final com dados
 write_csv(finalCluster, file = "../../../datasets/Word_University_Rank_2020_cluster.csv")
