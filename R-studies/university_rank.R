@@ -20,6 +20,36 @@ university.padronized <- (scale(university_data))
 #VERIFICANDO ELBOW 
 fviz_nbclust(university.padronized, kmeans, method = "wss")
 
+#calcular as distancias da matriz utilizando a distancia euclidiana
+distancia <- dist(university.padronized, method = "euclidean")
+
+### método hiearquico
+
+#Calcular o Cluster
+cluster.hierarquico <- hclust(distancia, method = "single" )
+
+# Dendrograma
+plot(cluster.hierarquico, cex = 0.6, hang = -1)
+
+#criando grupos
+universidades_hierarquico <- cutree(cluster.hierarquico, k = 5)
+table(universidades_hierarquico)
+
+#transformando em data frame a saida do cluster
+universidades_hierarquico <- data.frame(universidades_hierarquico)
+
+#juntando com a base original
+uni_fim <- cbind(university_rank, universidades_hierarquico)
+
+#visualizando em cores os clusters
+uni_fim %>% ggplot() +
+  geom_point(aes(x = International_Students,
+                 y = Percentage_Female,
+                 color = as.factor(universidades_hierarquico)),
+             size = 3)
+
+### método k-means
+
 #Rodar o modelo
 k5 <- kmeans(university.padronized, centers = 5)
 
