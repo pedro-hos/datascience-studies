@@ -46,3 +46,14 @@ media <- base_final %>%
             Media_obitos = mean(mortes_maio))
 
 media
+
+
+
+data("mtcars")
+df=scale(mtcars)
+
+dista=dist(df, method="euclidean")
+as.matrix(dista)[1:3,1:3]
+
+dista.hc=hclust(d=dista, method="ward.D")
+fviz_dend(dista.hc, cex=0.5)
