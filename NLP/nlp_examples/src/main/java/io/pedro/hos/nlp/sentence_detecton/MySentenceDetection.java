@@ -22,12 +22,12 @@ public class MySentenceDetection {
 	 */
 	public static void main(String[] args) {
 
-		try (InputStream modelIn = new FileInputStream(Utils.PATH_MODEL + "opennlp-en-ud-ewt-sentence-1.0-1.9.3.bin")) {
+		try (InputStream modelIn = new FileInputStream(Utils.PATH_MODEL + "pt-api-sent.bin")) {
 			
 			SentenceModel model = new SentenceModel(modelIn);
 			SentenceDetectorME sentenceDetector = new SentenceDetectorME(model);
 			
-			String text = "  First sentence. Second sentence. ";
+			String text = "Primeira Sentença. Segunda Sentença";
 			
 			// The result array now contains two entries. The first String is "First sentence." and the second String is "Second sentence." The whitespace before, between and after the input String is removed.
 			String sentences[] = sentenceDetector.sentDetect(text);

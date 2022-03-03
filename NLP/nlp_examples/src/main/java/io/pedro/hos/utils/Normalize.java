@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -20,23 +22,28 @@ import com.opencsv.exceptions.CsvException;
 public class Normalize {
 
 	public static void main(String[] args) {
-		
 		Normalize normalize = new Normalize();
 		
 		//normalize.normalizeNames();
-		normalize.createCatDocTrainingFileByCSV(5, 2, "ge-doc-cat.train", Utils.PATH_DATASET + "ge_soccer_clubs/ge_news.csv");
+		normalize.createCatDocTrainingFileByCSV(2, 3, "tw-sentimental-doccat.train", Utils.PATH_DATASET + "twiter_sentimental/twitter_training.csv");
 	}
 
-	public void createCatDocTrainingFileByCSV(int posCat, int posTxt, String binName, String csvPath) {
+	public void createCatDocTrainingFileByCSV(int posCat, int posTxt, String trainName, String csvPath) {
 
 		try (CSVReader reader = new CSVReaderBuilder(new FileReader(csvPath)).withSkipLines(1).build()) {
 
-			PrintWriter pw = new PrintWriter(Utils.PATH_TEST + "ge_soccer_clubs_doccat.train", "UTF-8");
+			PrintWriter pw = new PrintWriter(Utils.PATH_TEST + trainName, "UTF-8");
 			List<String[]> r = reader.readAll();
 			
 			r.forEach(x -> {
-				String text = x[posCat] + "\t" + x[posTxt] + "\n";
-				pw.write(text);
+				
+				String cat = x[posCat];
+				String text = x[posTxt];
+				
+				if(!cat.isBlank() && !text.isBlank()) {
+					pw.write(cat + "\t" + text + "\n");
+				}
+				
 			});
 			
 			pw.close();

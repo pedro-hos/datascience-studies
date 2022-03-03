@@ -37,7 +37,7 @@ public class MyLanguageDetector {
 			LanguageDetector myCategorizer = new LanguageDetectorME(model);
 			
 			// Get the most probable language
-			Language bestLanguage = myCategorizer.predictLanguage(text_pt);
+			Language bestLanguage = myCategorizer.predictLanguage(text_en);
 			
 			System.out.println("Best language: " + bestLanguage.getLang());
 			System.out.println("Best language confidence: " + bestLanguage.getConfidence());

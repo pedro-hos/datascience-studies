@@ -43,42 +43,37 @@ public class MyTokenization {
 
 	}
 
+	public Span[] runTokenSpan(final String text) {
+
+		try (InputStream modelIn = new FileInputStream(Utils.PATH_MODEL + "opennlp-en-ud-ewt-tokens-1.0-1.9.3.bin")) {
+			
+			TokenizerModel model = new TokenizerModel(modelIn);
+			Tokenizer tokenizer = new TokenizerME(model);
+			
+			return tokenizer.tokenizePos(text);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+	
 	public String[] runToken(final String text) {
 
 		try (InputStream modelIn = new FileInputStream(Utils.PATH_MODEL + "opennlp-en-ud-ewt-tokens-1.0-1.9.3.bin")) {
 
 			TokenizerModel model = new TokenizerModel(modelIn);
 			Tokenizer tokenizer = new TokenizerME(model);
-
-			System.out.println("\n#### SPAN #####\n");
-
-			String tokens[] = tokenizer.tokenize(text);
-
-			for (int i = 0; i < tokens.length; i++) {
-				System.out.println(tokens[i]);
-			}
-
-			System.out.println("\n#### SPAN #####\n");
-
-			Span tokenSpans[] = tokenizer.tokenizePos(text);
-
-			for (int i = 0; i < tokenSpans.length; i++) {
-				Span span = tokenSpans[i];
-
-				// probabilities for the detected tokens the value is between 0 and 1, where 1
-				// is the highest possible probability and 0 the lowest possible probability.
-				System.out.println("Prob: " + span.getProb() + " : " + text.substring(span.getStart(), span.getEnd()));
-
-				// System.out.println(span.getCoveredText(text));
-			}
-
-			return tokens;
+			
+			return tokenizer.tokenize(text);
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -97,7 +92,17 @@ public class MyTokenization {
 				+ "Rudolph Agnew, 55 years old and former chairman of Consolidated Gold Fields\n"
 				+ "    PLC, was named a director of this British industrial conglomerate.";
 
-		new MyTokenization().runSimpleTokenizer(text);
+		new MyTokenization().runWhitespaceTokenizer(text);
+		
+		/** for (int i = 0; i < tokenSpans.length; i++) {
+		Span span = tokenSpans[i];
+
+		// probabilities for the detected tokens the value is between 0 and 1, where 1
+		// is the highest possible probability and 0 the lowest possible probability.
+		System.out.println("Prob: " + span.getProb() + " : " + text.substring(span.getStart(), span.getEnd()));
+
+		// System.out.println(span.getCoveredText(text));
+		} **/
 
 	}
 }

@@ -12,5 +12,8 @@ public class Utils {
 	public static final String PATH_DATASET = PATH_DATA_SCIENCE + "datasets/";
 	public static final String PATH_MODEL = PATH_NLP + "models/";
 	public static final String PATH_TEST = PATH_NLP + "test/";
+	
+	public static final String PATH_DICT = PATH_TEST + "dict/";
+	
 
 }
